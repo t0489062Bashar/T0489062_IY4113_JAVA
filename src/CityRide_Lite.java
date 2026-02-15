@@ -140,24 +140,29 @@ class Journey {
         System.out.println("Enter 1 for Peak-time travel");
         System.out.println("Enter 2 for Off-peak travel");
         System.out.println("Choice: ");
-        choice = scanner.nextInt();
-        scanner.nextLine();
         while (valid == false) {
-            switch (choice) {
-                case 1:
-                    timeBand = CityRideDataset.TimeBand.PEAK;
-                    valid = true;
-                    break;
-                case 2:
-                    timeBand = CityRideDataset.TimeBand.OFF_PEAK;
-                    valid = true;
-                    break;
+            try {
+                choice = scanner.nextInt();
+                scanner.nextLine();
+                switch (choice) {
+                    case 1:
+                        timeBand = CityRideDataset.TimeBand.PEAK;
+                        valid = true;
+                        break;
+                    case 2:
+                        timeBand = CityRideDataset.TimeBand.OFF_PEAK;
+                        valid = true;
+                        break;
 
-                default:
-                    System.out.println("Invalid choice, please try again");
-                    choice = scanner.nextInt();
-                    scanner.nextLine();
+                    default:
+                        System.out.println("Invalid choice, please try again");
+                        break;
 
+                }
+            }
+            catch(Exception e){
+                System.out.println("Please enter a valid choice");
+                scanner.nextLine();
             }
         }
         return timeBand;
@@ -172,17 +177,23 @@ class Journey {
         System.out.println("Enter 4 for Outer Zone");
         System.out.println("Enter 5 for Rural Zone");
         System.out.println("Choice: ");
-        choice = scanner.nextInt();
-        scanner.nextLine();
         while (valid==false) {
-           if (choice>=CityRideDataset.MIN_ZONE && choice<=CityRideDataset.MAX_ZONE){
-               valid=true;
-           }
-           else{
-               System.out.println("Invalid choice, please try again");
-               choice = scanner.nextInt();
-               scanner.nextLine();
-           }
+            choice = scanner.nextInt();
+            scanner.nextLine();
+
+            try {
+                if (choice >= CityRideDataset.MIN_ZONE && choice <= CityRideDataset.MAX_ZONE) {
+                    valid = true;
+                } else {
+                    System.out.println("Invalid choice, please try again");
+                    choice = scanner.nextInt();
+                    scanner.nextLine();
+                }
+            }
+            catch (Exception e){
+                System.out.println("Please enter a valid choice");
+                scanner.nextLine();
+            }
         }
         return choice;
     }
@@ -196,31 +207,37 @@ class Journey {
         System.out.println("Enter 3 for Child passenger");
         System.out.println("Enter 4 for Senior passenger");
         System.out.println("Choice: ");
-        choice = scanner.nextInt();
-        scanner.nextLine();
         while (valid==false) {
-            switch (choice) {
-                case 1:
-                    passenger = CityRideDataset.PassengerType.ADULT;
-                    valid = true;
-                    break;
-                case 2:
-                    passenger = CityRideDataset.PassengerType.STUDENT;
-                    valid = true;
-                    break;
-                case 3:
-                    passenger = CityRideDataset.PassengerType.CHILD;
-                    valid=true;
-                    break;
-                case 4:
-                    passenger = CityRideDataset.PassengerType.SENIOR_CITIZEN;
-                    valid=true;
-                    break;
-                default:
-                    System.out.println("Invalid choice, please try again");
-                    choice = scanner.nextInt();
-                    scanner.nextLine();
+            choice = scanner.nextInt();
+            scanner.nextLine();
+            try {
+                switch (choice) {
+                    case 1:
+                        passenger = CityRideDataset.PassengerType.ADULT;
+                        valid = true;
+                        break;
+                    case 2:
+                        passenger = CityRideDataset.PassengerType.STUDENT;
+                        valid = true;
+                        break;
+                    case 3:
+                        passenger = CityRideDataset.PassengerType.CHILD;
+                        valid = true;
+                        break;
+                    case 4:
+                        passenger = CityRideDataset.PassengerType.SENIOR_CITIZEN;
+                        valid = true;
+                        break;
+                    default:
+                        System.out.println("Invalid choice, please try again");
+                        choice = scanner.nextInt();
+                        scanner.nextLine();
 
+                }
+            }
+            catch (Exception e){
+                System.out.println("Please enter a valid choice");
+                scanner.nextLine();
             }
         }
         return passenger;
@@ -385,7 +402,7 @@ public class CityRide_Lite {
             System.out.println("\n CityRide Lite");
             System.out.println("1. Add Journey");
             System.out.println("2. View All Journeys");
-            System.out.println("3. Update Journey Details");
+            System.out.println("3. Filter Journeys");
             System.out.println("4. Delete Journey");
             System.out.println("5. Exit");
             System.out.println("Choice: ");
