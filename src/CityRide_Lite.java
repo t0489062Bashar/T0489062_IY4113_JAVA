@@ -3,35 +3,168 @@ import java.util.ArrayList;
 import java.util.List;
 import java.time.*;
 import java.util.UUID;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.HashMap;
+import java.util.Map;
+
+final class CityRideDataset {
+
+    private CityRideDataset() {}
+
+    public static final int MIN_ZONE = 1;
+    public static final int MAX_ZONE = 5;
+
+    public enum TimeBand {
+        PEAK,
+        OFF_PEAK
+    }
+
+    public enum PassengerType {
+        ADULT,
+        STUDENT,
+        CHILD,
+        SENIOR_CITIZEN
+    }
+
+    public static final Map<PassengerType, BigDecimal> DISCOUNT_RATE = Map.of(
+            PassengerType.ADULT, new BigDecimal("0.00"),
+            PassengerType.STUDENT, new BigDecimal("0.25"),
+            PassengerType.CHILD, new BigDecimal("0.50"),
+            PassengerType.SENIOR_CITIZEN, new BigDecimal("0.30")
+    );
+
+    public static final Map<PassengerType, BigDecimal> DAILY_CAP = Map.of(
+            PassengerType.ADULT, new BigDecimal("8.00"),
+            PassengerType.STUDENT, new BigDecimal("6.00"),
+            PassengerType.CHILD, new BigDecimal("4.00"),
+            PassengerType.SENIOR_CITIZEN, new BigDecimal("7.00")
+    );
+
+    public static final Map<String, BigDecimal> BASE_FARE = buildBaseFare();
+
+    public static BigDecimal getBaseFare(int fromZone, int toZone, TimeBand timeBand) {
+        return BASE_FARE.get(key(fromZone, toZone, timeBand));
+    }
+
+    public static String key(int fromZone, int toZone, TimeBand timeBand) {
+        return fromZone + "-" + toZone + "-" + timeBand.name();
+    }
+
+    private static BigDecimal money(String amount) {
+        return new BigDecimal(amount).setScale(2, RoundingMode.HALF_UP);
+    }
+
+    private static Map<String, BigDecimal> buildBaseFare() {
+        Map<String, BigDecimal> m = new HashMap<>();
+
+        // Peak fares
+        put(m,1,1,TimeBand.PEAK,"2.50"); put(m,1,2,TimeBand.PEAK,"3.20");
+        put(m,1,3,TimeBand.PEAK,"3.80"); put(m,1,4,TimeBand.PEAK,"4.40");
+        put(m,1,5,TimeBand.PEAK,"5.00");
+
+        put(m,2,1,TimeBand.PEAK,"3.20"); put(m,2,2,TimeBand.PEAK,"2.30");
+        put(m,2,3,TimeBand.PEAK,"3.10"); put(m,2,4,TimeBand.PEAK,"3.80");
+        put(m,2,5,TimeBand.PEAK,"4.50");
+
+        put(m,3,1,TimeBand.PEAK,"3.80"); put(m,3,2,TimeBand.PEAK,"3.10");
+        put(m,3,3,TimeBand.PEAK,"2.10"); put(m,3,4,TimeBand.PEAK,"3.00");
+        put(m,3,5,TimeBand.PEAK,"3.70");
+
+        put(m,4,1,TimeBand.PEAK,"4.40"); put(m,4,2,TimeBand.PEAK,"3.80");
+        put(m,4,3,TimeBand.PEAK,"3.00"); put(m,4,4,TimeBand.PEAK,"2.00");
+        put(m,4,5,TimeBand.PEAK,"2.90");
+
+        put(m,5,1,TimeBand.PEAK,"5.00"); put(m,5,2,TimeBand.PEAK,"4.50");
+        put(m,5,3,TimeBand.PEAK,"3.70"); put(m,5,4,TimeBand.PEAK,"2.90");
+        put(m,5,5,TimeBand.PEAK,"1.90");
+
+        // Off-peak fares
+        put(m,1,1,TimeBand.OFF_PEAK,"2.00"); put(m,1,2,TimeBand.OFF_PEAK,"2.70");
+        put(m,1,3,TimeBand.OFF_PEAK,"3.20"); put(m,1,4,TimeBand.OFF_PEAK,"3.70");
+        put(m,1,5,TimeBand.OFF_PEAK,"4.20");
+
+        put(m,2,1,TimeBand.OFF_PEAK,"2.70"); put(m,2,2,TimeBand.OFF_PEAK,"1.90");
+        put(m,2,3,TimeBand.OFF_PEAK,"2.60"); put(m,2,4,TimeBand.OFF_PEAK,"3.20");
+        put(m,2,5,TimeBand.OFF_PEAK,"3.80");
+
+        put(m,3,1,TimeBand.OFF_PEAK,"3.20"); put(m,3,2,TimeBand.OFF_PEAK,"2.60");
+        put(m,3,3,TimeBand.OFF_PEAK,"1.70"); put(m,3,4,TimeBand.OFF_PEAK,"2.50");
+        put(m,3,5,TimeBand.OFF_PEAK,"3.10");
+
+        put(m,4,1,TimeBand.OFF_PEAK,"3.70"); put(m,4,2,TimeBand.OFF_PEAK,"3.20");
+        put(m,4,3,TimeBand.OFF_PEAK,"2.50"); put(m,4,4,TimeBand.OFF_PEAK,"1.60");
+        put(m,4,5,TimeBand.OFF_PEAK,"2.40");
+
+        put(m,5,1,TimeBand.OFF_PEAK,"4.20"); put(m,5,2,TimeBand.OFF_PEAK,"3.80");
+        put(m,5,3,TimeBand.OFF_PEAK,"3.10"); put(m,5,4,TimeBand.OFF_PEAK,"2.40");
+        put(m,5,5,TimeBand.OFF_PEAK,"1.50");
+
+        return Map.copyOf(m);
+    }
+
+    private static void put(Map<String, BigDecimal> m, int from, int to, TimeBand band, String amount) {
+        m.put(key(from, to, band), money(amount));
+    }
+}
 
 
 class Journey {
-    private LocalTime journeyTime;
+    private CityRideDataset.TimeBand journeyTime;
     private LocalDate journeyDate;
-    private String startZone;
-    private String endZone;
-    private String passenger;
-    private double baseFare;
-    private double discountFare;
+    private int startZone;
+    private int endZone;
+    private CityRideDataset.PassengerType passenger;
+    private BigDecimal baseFare;
+    private BigDecimal discountFare;
     private String journeyID;
-    private double total;
+    private BigDecimal total;
 
     public Journey(Scanner scanner){
-        journeyTime = LocalTime.now();
+        journeyTime = chooseTime(scanner, "Please choose timeband");
         journeyDate =LocalDate.now();
         startZone = chooseZone(scanner, "Please choose starting zone");
         endZone = chooseZone(scanner, "Please choose destination zone");
         passenger = choosePassenger(scanner, "Please choose passenger type");
-        baseFare =8.0;//Base fare will be calculated once dataset is made available
+        baseFare= CityRideDataset.getBaseFare(startZone,endZone,journeyTime);//Base fare will be calculated once dataset is made available
         discountFare=discount();
         journeyID = UUID.randomUUID().toString();
 
     }
 
-    public String chooseZone(Scanner scanner, String message){
+    public CityRideDataset.TimeBand chooseTime(Scanner scanner, String message) {
+        boolean valid = false;
+        int choice;
+        CityRideDataset.TimeBand timeBand= CityRideDataset.TimeBand.PEAK;
+        System.out.println(message);
+        System.out.println("Enter 1 for Peak-time travel");
+        System.out.println("Enter 2 for Off-peak travel");
+        System.out.println("Choice: ");
+        choice = scanner.nextInt();
+        scanner.nextLine();
+        while (valid == false) {
+            switch (choice) {
+                case 1:
+                    timeBand = CityRideDataset.TimeBand.PEAK;
+                    valid = true;
+                    break;
+                case 2:
+                    timeBand = CityRideDataset.TimeBand.OFF_PEAK;
+                    valid = true;
+                    break;
+
+                default:
+                    System.out.println("Invalid choice, please try again");
+                    choice = scanner.nextInt();
+                    scanner.nextLine();
+
+            }
+        }
+        return timeBand;
+    }
+    public int chooseZone(Scanner scanner, String message){
         boolean valid=false;
         int choice=0;
-        String zone="";
         System.out.println(message);
         System.out.println("Enter 1 for Central Zone");
         System.out.println("Enter 2 for Inner Zone");
@@ -42,41 +175,21 @@ class Journey {
         choice = scanner.nextInt();
         scanner.nextLine();
         while (valid==false) {
-            switch (choice) {
-                case 1:
-                    zone = "Central Zone";
-                    valid = true;
-                    break;
-                case 2:
-                    zone = "Inner Zone";
-                    valid = true;
-                    break;
-                case 3:
-                    zone = "Suburban Zone";
-                    valid=true;
-                    break;
-                case 4:
-                    zone = "Outer Zone";
-                    valid=true;
-                    break;
-
-                case 5:
-                    zone = "Rural Zone";
-                    valid=true;
-                    break;
-                default:
-                    System.out.println("Invalid choice, please try again");
-                    choice = scanner.nextInt();
-                    scanner.nextLine();
-                    break;
-            }
+           if (choice>=CityRideDataset.MIN_ZONE && choice<=CityRideDataset.MAX_ZONE){
+               valid=true;
+           }
+           else{
+               System.out.println("Invalid choice, please try again");
+               choice = scanner.nextInt();
+               scanner.nextLine();
+           }
         }
-        return zone;
+        return choice;
     }
-    public String choosePassenger(Scanner scanner, String message){
+    public CityRideDataset.PassengerType choosePassenger(Scanner scanner, String message){
         boolean valid=false;
         int choice;
-        String passenger="";
+        CityRideDataset.PassengerType passenger = CityRideDataset.PassengerType.ADULT;
         System.out.println(message);
         System.out.println("Enter 1 for Adult passenger");
         System.out.println("Enter 2 for Student passenger");
@@ -88,19 +201,19 @@ class Journey {
         while (valid==false) {
             switch (choice) {
                 case 1:
-                    passenger = "Adult";
+                    passenger = CityRideDataset.PassengerType.ADULT;
                     valid = true;
                     break;
                 case 2:
-                    passenger = "Student";
+                    passenger = CityRideDataset.PassengerType.STUDENT;
                     valid = true;
                     break;
                 case 3:
-                    passenger = "Child";
+                    passenger = CityRideDataset.PassengerType.CHILD;
                     valid=true;
                     break;
                 case 4:
-                    passenger = "Senior";
+                    passenger = CityRideDataset.PassengerType.SENIOR_CITIZEN;
                     valid=true;
                     break;
                 default:
@@ -112,26 +225,9 @@ class Journey {
         }
         return passenger;
     }
-    public double discount(){
-        double newfare;
-        if (passenger =="Senior"){
-            newfare =baseFare-(baseFare*0.30);
-
-
-        }
-        else if (passenger =="Child"){
-            newfare =baseFare-(baseFare*0.50);
-
-
-        }
-        else if (passenger =="Student"){
-            newfare =baseFare-(baseFare*0.30);
-
-
-        }
-        else{
-            newfare= baseFare;
-        }
+    public BigDecimal discount(){
+        BigDecimal newfare;
+        newfare=CityRideDataset.DISCOUNT_RATE.get(passenger).multiply(baseFare);
         return newfare;
 
     }
@@ -139,7 +235,7 @@ class Journey {
 
 
 
-    public LocalTime getJourneyTime(){
+    public CityRideDataset.TimeBand getJourneyTime(){
         return journeyTime;
 
     }
@@ -147,22 +243,22 @@ class Journey {
         return journeyDate;
 
     }
-    public String getStartZone(){
+    public int getStartZone(){
         return startZone;
 
-    } public String getEndZone(){
+    } public int getEndZone(){
         return endZone;
 
     }
-    public String getPassenger(){
+    public CityRideDataset.PassengerType getPassenger(){
         return passenger;
 
     }
-    public double getBaseFare(){
+    public BigDecimal getBaseFare(){
         return baseFare;
 
     }
-    public double getDiscountFare(){
+    public BigDecimal getDiscountFare(){
         return discountFare;
 
     }
@@ -171,8 +267,8 @@ class Journey {
 
     }
 
-    public void setJourneyTime(){
-        this.journeyTime = LocalTime.now();
+    public void setJourneyTime(Scanner scanner){
+        this.journeyTime = chooseTime(scanner, "Please choose travel time" );
 
     }
     public void setJourneyDate(){
@@ -187,8 +283,8 @@ class Journey {
     public void setPassenger(Scanner scanner){
         this.passenger =choosePassenger(scanner, "Please choose passenger type");
     }
-    public void setBaseFare(double baseFare){
-        this.baseFare = baseFare;
+    public void setBaseFare(){
+        this.baseFare = CityRideDataset.getBaseFare(startZone, endZone, journeyTime);
     }
 
     public void setDiscountFare(){
@@ -203,26 +299,26 @@ class Journey {
 class journeyList {
 
     private List<Journey> journeyList = new ArrayList<>();
-    private double childTotal=0;
-    private double seniorTotal=0;
-    private double studentTotal=0;
-    private double adultTotal=0;
+    private BigDecimal childTotal=new BigDecimal("0.0");
+    private BigDecimal seniorTotal=new BigDecimal("0.0");
+    private BigDecimal studentTotal=new BigDecimal("0.0");
+    private BigDecimal adultTotal=new BigDecimal("0.0");
 
 
     public void addJourney(Journey c){
         journeyList.add(c);
         System.out.println("Journey with ID: " + c.getJourneyID() + " has been added.");
-        if (c.getPassenger()=="Senior"){
-            seniorTotal+=c.getDiscountFare();
+        if (c.getPassenger()==CityRideDataset.PassengerType.SENIOR_CITIZEN){
+            seniorTotal=c.getDiscountFare().add(seniorTotal);
         }
-        else if (c.getPassenger()=="Child"){
-            childTotal+=c.getDiscountFare();
+        else if (c.getPassenger()==CityRideDataset.PassengerType.CHILD){
+            childTotal=c.getDiscountFare().add(childTotal);
         }
-        else if (c.getPassenger()=="Student"){
-            studentTotal+=c.getDiscountFare();
+        else if (c.getPassenger()==CityRideDataset.PassengerType.STUDENT){
+            studentTotal=c.getDiscountFare().add(studentTotal);
         }
         else{
-            adultTotal+=c.getDiscountFare();
+            adultTotal=c.getDiscountFare().add(adultTotal);
         }
     }
     public Journey findJourneyByID(String ID){
@@ -240,7 +336,20 @@ class journeyList {
         ID=scanner.nextLine();
         for(Journey c : journeyList){
             if(c.getJourneyID().equalsIgnoreCase(ID)){
+                if (c.getPassenger()==CityRideDataset.PassengerType.SENIOR_CITIZEN){
+                    seniorTotal=c.getDiscountFare().subtract(seniorTotal);
+                }
+                else if (c.getPassenger()==CityRideDataset.PassengerType.CHILD){
+                    childTotal=c.getDiscountFare().subtract(childTotal);
+                }
+                else if (c.getPassenger()==CityRideDataset.PassengerType.STUDENT){
+                    studentTotal=c.getDiscountFare().subtract(studentTotal);
+                }
+                else{
+                    adultTotal=c.getDiscountFare().subtract(adultTotal);
+                }
                 journeyList.remove(c);
+
                 return "Journey with ID "+ ID +"has been deleted.";
             }
 
@@ -259,7 +368,6 @@ class journeyList {
         }
     }
     public void countTotal(){
-
 
     }
 }
@@ -296,9 +404,9 @@ public class CityRide_Lite {
                     Journey foundjourney = journeyList.findJourneyByID(searchID);
 
                     if (foundjourney != null) {
-                        System.out.println("4. Enter new base fare: ");
+                        System.out.println("Enter new base fare: ");
                         double newPrice = scanner.nextDouble();
-                        foundjourney.setBaseFare(newPrice);
+                        foundjourney.setBaseFare();
                         foundjourney.setDiscountFare();
                         System.out.println("Price updated successfully");
                     } else {
