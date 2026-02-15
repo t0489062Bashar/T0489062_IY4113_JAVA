@@ -227,7 +227,7 @@ class Journey {
     }
     public BigDecimal discount(){
         BigDecimal newfare;
-        newfare=CityRideDataset.DISCOUNT_RATE.get(passenger).multiply(baseFare);
+        newfare=(baseFare.subtract(CityRideDataset.DISCOUNT_RATE.get(passenger).multiply(baseFare))).setScale(2, RoundingMode.HALF_UP);
         return newfare;
 
     }
