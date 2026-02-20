@@ -356,6 +356,211 @@ class journeyList {
         }
         return null;
     }
+    public void filterPassenger(Scanner scanner){
+        boolean valid = false;
+        int choice;
+        System.out.println("Please choose passenger to search for:");
+        System.out.println("1. Adult");
+        System.out.println("2. Student");
+        System.out.println("3. Child");
+        System.out.println("4. Senior");
+        System.out.println("Please enter choice (1-4): ");
+        while (valid==false) {
+            try {
+                choice = scanner.nextInt();
+                scanner.nextLine();
+                switch (choice) {
+                    case 1:
+                        if (journeyList.isEmpty()) {
+                            System.out.println("Journey list is empty.");
+                        }
+                        else{
+                            boolean found=false;
+                            for(Journey c : journeyList) {
+                                if (c.getPassenger()== CityRideDataset.PassengerType.ADULT) {
+                                    found=true;
+                                    c.displayDetails();
+                                }
+                            }
+                            if (found==false){
+                                System.out.println("No matches found.");
+                            }
+                        }
+                        valid = true;
+                        break;
+                    case 2:
+                        if (journeyList.isEmpty()) {
+                            System.out.println("Journey list is empty.");
+                        }
+                        else{
+                            boolean found=false;
+                            for(Journey c : journeyList) {
+                                if (c.getPassenger()== CityRideDataset.PassengerType.STUDENT) {
+                                    found=true;
+                                    c.displayDetails();
+                                }
+                            }
+                            if (found==false){
+                                System.out.println("No matches found.");
+                            }
+                        }
+                        valid = true;
+                        break;
+                    case 3:
+                        if (journeyList.isEmpty()) {
+                            System.out.println("Journey list is empty.");
+                        }
+                        else{
+                            boolean found=false;
+                            for(Journey c : journeyList) {
+                                if (c.getPassenger()== CityRideDataset.PassengerType.CHILD) {
+                                    found=true;
+                                    c.displayDetails();
+                                }
+                            }
+                            if (found==false){
+                                System.out.println("No matches found.");
+                            }
+                        }
+                        valid = true;
+                        break;
+                    case 4:
+                        if (journeyList.isEmpty()) {
+                            System.out.println("Journey list is empty.");
+                        }
+                        else{
+                            boolean found=false;
+                            for(Journey c : journeyList) {
+                                if (c.getPassenger()== CityRideDataset.PassengerType.SENIOR_CITIZEN) {
+                                    found=true;
+                                    c.displayDetails();
+                                }
+                            }
+                            if (found==false){
+                                System.out.println("No matches found.");
+                            }
+                        }
+                        valid = true;
+                        break;
+                    default:
+                        System.out.println("Invalid choice, please try again");
+                        choice = scanner.nextInt();
+                        scanner.nextLine();
+
+                }
+            } catch (Exception e) {
+                System.out.println("Please enter a valid choice");
+                scanner.nextLine();
+            }
+        }
+    }
+
+    public void filterTime(Scanner scanner){
+        boolean valid = false;
+        int choice;
+        System.out.println("Please choose time-band to search for:");
+        System.out.println("1. Peak");
+        System.out.println("2. Off-Peak");
+        System.out.println("Please enter choice (1-2): ");
+        while (valid==false) {
+            try {
+                choice = scanner.nextInt();
+                scanner.nextLine();
+                switch (choice) {
+                    case 1:
+                        if (journeyList.isEmpty()) {
+                            System.out.println("Journey list is empty.");
+                        }
+                        else{
+                            boolean found=false;
+                            for(Journey c : journeyList) {
+                                if (c.getJourneyTime()== CityRideDataset.TimeBand.PEAK) {
+                                    found=true;
+                                    c.displayDetails();
+                                }
+                            }
+                            if (found==false){
+                                System.out.println("No matches found.");
+                            }
+                        }
+                        valid = true;
+                        break;
+                    case 2:
+                        if (journeyList.isEmpty()) {
+                            System.out.println("Journey list is empty.");
+                        }
+                        else{
+                            boolean found=false;
+                            for(Journey c : journeyList) {
+                                if (c.getJourneyTime()== CityRideDataset.TimeBand.OFF_PEAK) {
+                                    found=true;
+                                    c.displayDetails();
+                                }
+                            }
+                            if (found==false){
+                                System.out.println("No matches found.");
+                            }
+                        }
+                        valid = true;
+                        break;
+                    default:
+                        System.out.println("Invalid choice, please try again");
+                        choice = scanner.nextInt();
+                        scanner.nextLine();
+
+                }
+            } catch (Exception e) {
+                System.out.println("Please enter a valid choice");
+                scanner.nextLine();
+            }
+        }
+    }
+
+
+    public void filterJourney(Scanner scanner){
+        boolean valid = false;
+        int choice;
+        System.out.println("Please choose filter category:");
+        System.out.println("1. Passenger Type");
+        System.out.println("2. Time Band");
+        System.out.println("3. Zone");
+        System.out.println("4. Date");
+        System.out.println("Please enter choice (1-4): ");
+        while (valid==false) {
+            try {
+                choice = scanner.nextInt();
+                scanner.nextLine();
+                switch (choice) {
+                    case 1:
+                        filterPassenger(scanner);
+                        valid = true;
+                        break;
+                    case 2:
+                        filterTime(scanner);
+                        valid = true;
+                        break;
+                    case 3:
+                        passenger = CityRideDataset.PassengerType.CHILD;
+                        valid = true;
+                        break;
+                    case 4:
+                        passenger = CityRideDataset.PassengerType.SENIOR_CITIZEN;
+                        valid = true;
+                        break;
+                    default:
+                        System.out.println("Invalid choice, please try again");
+                        choice = scanner.nextInt();
+                        scanner.nextLine();
+
+                }
+            } catch (Exception e) {
+                System.out.println("Please enter a valid choice");
+                scanner.nextLine();
+            }
+        }
+
+
+    }
 
     public String deleteJourneyByID(Scanner scanner){
         String ID;
@@ -449,10 +654,40 @@ public class CityRide_Lite {
                     break;
 
                 case 4:
-                    System.out.println(journeyList.deleteJourneyByID(scanner));
+                    int confirm;
+                    System.out.println("Are you sure you'd like to delete a journey?");
+                    System.out.println("Enter 1 to confirm");
+                    try{
+                        confirm = scanner.nextInt();
+                        scanner.nextLine();
+                        if (confirm==1){
+                            System.out.println(journeyList.deleteJourneyByID(scanner));
+                        }
+                        else {
+                            System.out.println("Confirmation declined");
+                        }
+                    }
+                    catch (Exception e){
+                        System.out.println("Confirmation declined");
+                    }
                     break;
                 case 5:
-                    journeyList.clearDay();
+                    System.out.println("Are you sure you'd like to clear all journeys?");
+                    System.out.println("Enter 1 to confirm");
+                    try{
+                        confirm = scanner.nextInt();
+                        scanner.nextLine();
+                        if (confirm==1){
+                            journeyList.clearDay();
+                        }
+                        else{
+                            System.out.println("Confirmation declined");
+                        }
+                    }
+                    catch(Exception e){
+                        System.out.println("Confirmation declined");
+
+                    }
                     break;
                 case 6:
                     System.out.println("Exiting...");
