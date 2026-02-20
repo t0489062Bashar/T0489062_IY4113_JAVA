@@ -516,6 +516,273 @@ class journeyList {
         }
     }
 
+    public void filterStartZone(Scanner scanner){
+        boolean valid = false;
+        int choice;
+        System.out.println("Please choose zone to search for:");
+        System.out.println("Enter 1 for Central Zone");
+        System.out.println("Enter 2 for Inner Zone");
+        System.out.println("Enter 3 for Suburban Zone");
+        System.out.println("Enter 4 for Outer Zone");
+        System.out.println("Enter 5 for Rural Zone");
+        System.out.println("Choice: ");
+        while (valid==false) {
+            try {
+                choice = scanner.nextInt();
+                scanner.nextLine();
+                switch (choice) {
+                    case 1:
+                        if (journeyList.isEmpty()) {
+                            System.out.println("Journey list is empty.");
+                        }
+                        else{
+                            boolean found=false;
+                            for(Journey c : journeyList) {
+                                if (c.getStartZone()== 1) {
+                                    found=true;
+                                    c.displayDetails();
+                                }
+                            }
+                            if (found==false){
+                                System.out.println("No matches found.");
+                            }
+                        }
+                        valid = true;
+                        break;
+                    case 2:
+                        if (journeyList.isEmpty()) {
+                            System.out.println("Journey list is empty.");
+                        }
+                        else{
+                            boolean found=false;
+                            for(Journey c : journeyList) {
+                                if (c.getStartZone()== 2) {
+                                    found=true;
+                                    c.displayDetails();
+                                }
+                            }
+                            if (found==false){
+                                System.out.println("No matches found.");
+                            }
+                        }
+                        valid = true;
+                        break;
+                    case 3:
+                        if (journeyList.isEmpty()) {
+                            System.out.println("Journey list is empty.");
+                        }
+                        else{
+                            boolean found=false;
+                            for(Journey c : journeyList) {
+                                if (c.getStartZone()== 3) {
+                                    found=true;
+                                    c.displayDetails();
+                                }
+                            }
+                            if (found==false){
+                                System.out.println("No matches found.");
+                            }
+                        }
+                        valid = true;
+                        break;
+                    case 4:
+                        if (journeyList.isEmpty()) {
+                            System.out.println("Journey list is empty.");
+                        }
+                        else{
+                            boolean found=false;
+                            for(Journey c : journeyList) {
+                                if (c.getStartZone()== 4) {
+                                    found=true;
+                                    c.displayDetails();
+                                }
+                            }
+                            if (found==false){
+                                System.out.println("No matches found.");
+                            }
+                        }
+                        valid = true;
+                        break;
+                    case 5:
+                        if (journeyList.isEmpty()) {
+                            System.out.println("Journey list is empty.");
+                        }
+                        else{
+                            boolean found=false;
+                            for(Journey c : journeyList) {
+                                if (c.getStartZone()== 5) {
+                                    found=true;
+                                    c.displayDetails();
+                                }
+                            }
+                            if (found==false){
+                                System.out.println("No matches found.");
+                            }
+                        }
+                        valid = true;
+                        break;
+                    default:
+                        System.out.println("Invalid choice, please try again");
+                        choice = scanner.nextInt();
+                        scanner.nextLine();
+
+                }
+            } catch (Exception e) {
+                System.out.println("Please enter a valid choice");
+                scanner.nextLine();
+            }
+        }
+    }
+
+    public void filterEndZone(Scanner scanner){
+        boolean valid = false;
+        int choice;
+        System.out.println("Please choose zone to search for:");
+        System.out.println("Enter 1 for Central Zone");
+        System.out.println("Enter 2 for Inner Zone");
+        System.out.println("Enter 3 for Suburban Zone");
+        System.out.println("Enter 4 for Outer Zone");
+        System.out.println("Enter 5 for Rural Zone");
+        System.out.println("Choice: ");
+        while (valid==false) {
+            try {
+                choice = scanner.nextInt();
+                scanner.nextLine();
+                switch (choice) {
+                    case 1:
+                        if (journeyList.isEmpty()) {
+                            System.out.println("Journey list is empty.");
+                        }
+                        else{
+                            boolean found=false;
+                            for(Journey c : journeyList) {
+                                if (c.getEndZone()== 1) {
+                                    found=true;
+                                    c.displayDetails();
+                                }
+                            }
+                            if (found==false){
+                                System.out.println("No matches found.");
+                            }
+                        }
+                        valid = true;
+                        break;
+                    case 2:
+                        if (journeyList.isEmpty()) {
+                            System.out.println("Journey list is empty.");
+                        }
+                        else{
+                            boolean found=false;
+                            for(Journey c : journeyList) {
+                                if (c.getEndZone()== 2) {
+                                    found=true;
+                                    c.displayDetails();
+                                }
+                            }
+                            if (found==false){
+                                System.out.println("No matches found.");
+                            }
+                        }
+                        valid = true;
+                        break;
+                    case 3:
+                        if (journeyList.isEmpty()) {
+                            System.out.println("Journey list is empty.");
+                        }
+                        else{
+                            boolean found=false;
+                            for(Journey c : journeyList) {
+                                if (c.getEndZone()== 3) {
+                                    found=true;
+                                    c.displayDetails();
+                                }
+                            }
+                            if (found==false){
+                                System.out.println("No matches found.");
+                            }
+                        }
+                        valid = true;
+                        break;
+                    case 4:
+                        if (journeyList.isEmpty()) {
+                            System.out.println("Journey list is empty.");
+                        }
+                        else{
+                            boolean found=false;
+                            for(Journey c : journeyList) {
+                                if (c.getEndZone()== 4) {
+                                    found=true;
+                                    c.displayDetails();
+                                }
+                            }
+                            if (found==false){
+                                System.out.println("No matches found.");
+                            }
+                        }
+                        valid = true;
+                        break;
+                    case 5:
+                        if (journeyList.isEmpty()) {
+                            System.out.println("Journey list is empty.");
+                        }
+                        else{
+                            boolean found=false;
+                            for(Journey c : journeyList) {
+                                if (c.getEndZone()== 5) {
+                                    found=true;
+                                    c.displayDetails();
+                                }
+                            }
+                            if (found==false){
+                                System.out.println("No matches found.");
+                            }
+                        }
+                        valid = true;
+                        break;
+                    default:
+                        System.out.println("Invalid choice, please try again");
+                        choice = scanner.nextInt();
+                        scanner.nextLine();
+
+                }
+            } catch (Exception e) {
+                System.out.println("Please enter a valid choice");
+                scanner.nextLine();
+            }
+        }
+    }
+    public void filterDate(Scanner scanner) {
+        System.out.println("Please enter date to search for:");
+        boolean valid = false;
+        while (valid == false) {
+            try {
+                System.out.println("Please enter day (dd): ");
+                String day = scanner.nextLine();
+                scanner.nextLine();
+                System.out.println("Please enter month (MM): ");
+                String month = scanner.nextLine();
+                scanner.nextLine();
+                System.out.println("Please enter year (yyyy): ");
+                String year = scanner.nextLine();
+                scanner.nextLine();
+                String date= year + "-" + month + "-" + day;
+                boolean found=false;
+                for(Journey c : journeyList) {
+                    if (c.getJourneyDate().toString()== date) {
+                        found=true;
+                        c.displayDetails();
+                    }
+                }
+                if (found==false){
+                    System.out.println("No matches found.");
+                }
+            valid = true;
+            } catch (Exception e) {
+                System.out.println("Please enter a valid choice");
+                scanner.nextLine();
+            }
+        }
+    }
 
     public void filterJourney(Scanner scanner){
         boolean valid = false;
@@ -523,9 +790,10 @@ class journeyList {
         System.out.println("Please choose filter category:");
         System.out.println("1. Passenger Type");
         System.out.println("2. Time Band");
-        System.out.println("3. Zone");
-        System.out.println("4. Date");
-        System.out.println("Please enter choice (1-4): ");
+        System.out.println("3. Start Zone");
+        System.out.println("4. End Zone");
+        System.out.println("5. Date");
+        System.out.println("Please enter choice (1-5): ");
         while (valid==false) {
             try {
                 choice = scanner.nextInt();
@@ -540,11 +808,15 @@ class journeyList {
                         valid = true;
                         break;
                     case 3:
-                        passenger = CityRideDataset.PassengerType.CHILD;
+                        filterStartZone(scanner);
                         valid = true;
                         break;
                     case 4:
-                        passenger = CityRideDataset.PassengerType.SENIOR_CITIZEN;
+                        filterEndZone(scanner);
+                        valid = true;
+                        break;
+                    case 5:
+                        filterDate(scanner);
                         valid = true;
                         break;
                     default:
@@ -562,6 +834,165 @@ class journeyList {
 
     }
 
+    public void dailySummary(Scanner scanner){
+        int journeyCount=0;
+        String highestJourneyID="";
+        BigDecimal totalCost= new BigDecimal(0);
+        BigDecimal highestFare= new BigDecimal(0);
+        if (journeyList.isEmpty()) {
+            System.out.println("Journey list is empty.");
+        }
+        else{
+            for(Journey c : journeyList) {
+                journeyCount=journeyCount+1;
+                totalCost=totalCost.add(c.getFinalFare());
+                if (c.getFinalFare().compareTo(highestFare)>0){
+                    highestJourneyID=c.getJourneyID();
+                    highestFare=c.getFinalFare();
+                }
+
+            }
+        }
+        System.out.println("Total number of journeys: " + journeyCount);
+        System.out.println("Total cost: " + totalCost);
+        System.out.println("Average fare : " + (totalCost.divide(new BigDecimal(journeyCount))).setScale(2, RoundingMode.HALF_UP));
+        System.out.println("Highest Fare: " + highestFare + " with journey ID: " + highestJourneyID);
+
+    }
+
+    public void passengerSummary(Scanner scanner){
+        int journeyCount=0;
+        BigDecimal preDiscountSum=new BigDecimal(0);
+        BigDecimal discountedSum=new BigDecimal(0);
+        BigDecimal chargedSum=new BigDecimal(0);
+        if (journeyList.isEmpty()) {
+            System.out.println("Journey list is empty.");
+        }
+        else{
+            boolean found=false;
+            for(Journey c : journeyList) {
+                if (c.getPassenger()==CityRideDataset.PassengerType.ADULT){
+                    journeyCount=journeyCount+1;
+                    preDiscountSum=preDiscountSum.add(c.getBaseFare());
+                    discountedSum=discountedSum.add(c.getDiscountFare());
+                    chargedSum=chargedSum.add(c.getFinalFare());
+                    found=true;
+                }
+
+
+            }
+            if (found==false){
+                System.out.println("No adult journeys found.");
+            }
+            else {
+                System.out.println("| ADULT JOURNEYS |");
+                System.out.println("No. of adult journeys: " + journeyCount);
+                System.out.println("Adult journeys total base fare: " + preDiscountSum);
+                System.out.println("Adult journeys total discounted fare: " + discountedSum);
+                System.out.println("Adult journeys total charged fare: " + chargedSum);
+                if(chargedSum==CityRideDataset.DAILY_CAP.get(CityRideDataset.PassengerType.ADULT)){
+                    System.out.println("Cap was reached");
+                }
+                else{
+                    System.out.println("Cap was not reached");
+                }
+            }
+            journeyCount=0;
+            preDiscountSum=new BigDecimal(0);
+            discountedSum=new BigDecimal(0);
+            chargedSum=new BigDecimal(0);
+            for(Journey c : journeyList) {
+                if (c.getPassenger()==CityRideDataset.PassengerType.STUDENT){
+                    journeyCount=journeyCount+1;
+                    preDiscountSum=preDiscountSum.add(c.getBaseFare());
+                    discountedSum=discountedSum.add(c.getDiscountFare());
+                    chargedSum=chargedSum.add(c.getFinalFare());
+                    found=true;
+                }
+
+
+            }
+            if (found==false){
+                System.out.println("No student journeys found.");
+            }
+            else {
+                System.out.println("| STUDENT JOURNEYS |");
+                System.out.println("No. of student journeys: " + journeyCount);
+                System.out.println("Student journeys total base fare: " + preDiscountSum);
+                System.out.println("Student journeys total discounted fare: " + discountedSum);
+                System.out.println("Student journeys total charged fare: " + chargedSum);
+                if(chargedSum==CityRideDataset.DAILY_CAP.get(CityRideDataset.PassengerType.STUDENT)){
+                    System.out.println("Cap was reached");
+                }
+                else{
+                    System.out.println("Cap was not reached");
+                }
+            }
+            journeyCount=0;
+            preDiscountSum=new BigDecimal(0);
+            discountedSum=new BigDecimal(0);
+            chargedSum=new BigDecimal(0);
+            for(Journey c : journeyList) {
+                if (c.getPassenger()==CityRideDataset.PassengerType.CHILD){
+                    journeyCount=journeyCount+1;
+                    preDiscountSum=preDiscountSum.add(c.getBaseFare());
+                    discountedSum=discountedSum.add(c.getDiscountFare());
+                    chargedSum=chargedSum.add(c.getFinalFare());
+                    found=true;
+                }
+
+
+            }
+            if (found==false){
+                System.out.println("No child journeys found.");
+            }
+            else {
+                System.out.println("| CHILD JOURNEYS |");
+                System.out.println("No. of child journeys: " + journeyCount);
+                System.out.println("Child journeys total base fare: " + preDiscountSum);
+                System.out.println("Child journeys total discounted fare: " + discountedSum);
+                System.out.println("Child journeys total charged fare: " + chargedSum);
+                if(chargedSum==CityRideDataset.DAILY_CAP.get(CityRideDataset.PassengerType.CHILD)){
+                    System.out.println("Cap was reached");
+                }
+                else{
+                    System.out.println("Cap was not reached");
+                }
+            }
+            journeyCount=0;
+            preDiscountSum=new BigDecimal(0);
+            discountedSum=new BigDecimal(0);
+            chargedSum=new BigDecimal(0);
+            for(Journey c : journeyList) {
+                if (c.getPassenger()==CityRideDataset.PassengerType.SENIOR_CITIZEN){
+                    journeyCount=journeyCount+1;
+                    preDiscountSum=preDiscountSum.add(c.getBaseFare());
+                    discountedSum=discountedSum.add(c.getDiscountFare());
+                    chargedSum=chargedSum.add(c.getFinalFare());
+                    found=true;
+                }
+
+
+            }
+            if (found==false){
+                System.out.println("No senior journeys found.");
+            }
+            else {
+                System.out.println("| SENIOR JOURNEYS |");
+                System.out.println("No. of senior journeys: " + journeyCount);
+                System.out.println("Senior journeys total base fare: " + preDiscountSum);
+                System.out.println("Senior journeys total discounted fare: " + discountedSum);
+                System.out.println("Senior journeys total charged fare: " + chargedSum);
+                if(chargedSum==CityRideDataset.DAILY_CAP.get(CityRideDataset.PassengerType.SENIOR_CITIZEN)){
+                    System.out.println("Cap was reached");
+                }
+                else{
+                    System.out.println("Cap was not reached");
+                }
+            }
+        }
+    }
+
     public String deleteJourneyByID(Scanner scanner){
         String ID;
         System.out.println("Please input ID to delete: ");
@@ -571,7 +1002,7 @@ class journeyList {
                 PASSENGER_TOTAL.put(c.getPassenger(),PASSENGER_TOTAL.get(c.getPassenger()).subtract(c.getFinalFare()));
                 journeyList.remove(c);
 
-                return "Journey with ID "+ ID +"has been deleted.";
+                return "Journey with ID "+ ID +" has been deleted.";
             }
 
         }
@@ -616,7 +1047,9 @@ public class CityRide_Lite {
             System.out.println("3. Filter Journeys");
             System.out.println("4. Delete Journey");
             System.out.println("5. Clear Day");
-            System.out.println("6. Exit");
+            System.out.println("6. View Daily Summary");
+            System.out.println("7. View Summary by Passenger Type");
+            System.out.println("8. Exit");
             System.out.println("Choice: ");
             boolean valid=false;
             while (valid==false){
@@ -638,19 +1071,7 @@ public class CityRide_Lite {
                     journeyList.showAllJourney();
                     break;
                 case 3:
-                    System.out.println("Enter ID to update: ");
-                    String searchID = scanner.nextLine();
-                    Journey foundjourney = journeyList.findJourneyByID(searchID);
-
-                    if (foundjourney != null) {
-                        System.out.println("Enter new base fare: ");
-                        double newPrice = scanner.nextDouble();
-                        foundjourney.setBaseFare();
-                        foundjourney.setDiscountFare();
-                        System.out.println("Price updated successfully");
-                    } else {
-                        System.out.println("Journey not found");
-                    }
+                    journeyList.filterJourney(scanner);
                     break;
 
                 case 4:
@@ -690,11 +1111,16 @@ public class CityRide_Lite {
                     }
                     break;
                 case 6:
+                    journeyList.dailySummary(scanner);
+                    break;
+                case 7:
+                    journeyList.passengerSummary(scanner);
+                case 8:
                     System.out.println("Exiting...");
                     break;
             }
         }
-        while (choice != 6);
+        while (choice != 8);
         scanner.close();
 
     }
