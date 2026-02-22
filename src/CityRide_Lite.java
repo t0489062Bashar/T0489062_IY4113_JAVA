@@ -1164,6 +1164,9 @@ public class CityRide_Lite {
                 case 8:
                     System.out.println("Exiting...");
                     break;
+                default:
+                    System.out.println("Invalid choice, please try again");
+                    break;
             }
         }
         while (choice != 8);
