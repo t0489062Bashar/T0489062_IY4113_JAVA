@@ -259,6 +259,7 @@ class Journey {
         else{
             finalFare=discountFare;
         }
+        journeyList.PASSENGER_TOTAL.put(passenger,journeyList.PASSENGER_TOTAL.get(passenger).add(finalFare));
         return finalFare;
 
     }
@@ -323,6 +324,9 @@ class Journey {
     public void setDiscountFare(){
         this.discountFare = discount();
     }
+    public void setFinalFare(){
+        this.finalFare = finalFare();
+    }
 
     public void displayDetails(){
         System.out.println("[" + journeyDate + "] Time: "+ journeyTime + "| Starting Zone: " + startZone + "| Destination Zone: " + endZone + "| Zones Crossed: " + (Math.abs(endZone - startZone) + 1) + "| Passenger Type: " + passenger + " | Base Fare: £" + baseFare + "| Discount Applied: "+ CityRideDataset.DISCOUNT_RATE.get(passenger).movePointRight(2).setScale(0, RoundingMode.HALF_UP) + "% | Discounted Fare: £" + discountFare + "| Final Fare: £" + finalFare + "| Journey ID: " + journeyID);
@@ -346,7 +350,7 @@ class journeyList {
     public void addJourney(Journey c){
         journeyList.add(c);
         System.out.println("Journey with ID: " + c.getJourneyID() + " has been added.");
-        PASSENGER_TOTAL.put(c.getPassenger(),PASSENGER_TOTAL.get(c.getPassenger()).add(c.getFinalFare()));
+
     }
     public Journey findJourneyByID(String ID){
         for(Journey c : journeyList){
@@ -758,13 +762,10 @@ class journeyList {
             try {
                 System.out.println("Please enter day (dd): ");
                 String day = scanner.nextLine();
-                scanner.nextLine();
                 System.out.println("Please enter month (MM): ");
                 String month = scanner.nextLine();
-                scanner.nextLine();
                 System.out.println("Please enter year (yyyy): ");
                 String year = scanner.nextLine();
-                scanner.nextLine();
                 String date= year + "-" + month + "-" + day;
                 boolean found=false;
                 for(Journey c : journeyList) {
@@ -839,24 +840,60 @@ class journeyList {
         String highestJourneyID="";
         BigDecimal totalCost= new BigDecimal(0);
         BigDecimal highestFare= new BigDecimal(0);
+        int peakCounter=0;
+        int offPeakCounter=0;
+        int zone1counter=0;
+        int zone2counter=0;
+        int zone3counter=0;
+        int zone4counter=0;
+        int zone5counter=0;
         if (journeyList.isEmpty()) {
             System.out.println("Journey list is empty.");
         }
-        else{
-            for(Journey c : journeyList) {
-                journeyCount=journeyCount+1;
-                totalCost=totalCost.add(c.getFinalFare());
-                if (c.getFinalFare().compareTo(highestFare)>0){
-                    highestJourneyID=c.getJourneyID();
-                    highestFare=c.getFinalFare();
+        else {
+            for (Journey c : journeyList) {
+                journeyCount = journeyCount + 1;
+                totalCost = totalCost.add(c.getFinalFare());
+                if (c.getFinalFare().compareTo(highestFare) > 0) {
+                    highestJourneyID = c.getJourneyID();
+                    highestFare = c.getFinalFare();
+                }
+                if (c.getJourneyTime()== CityRideDataset.TimeBand.PEAK){
+                    peakCounter+=1;
+                }
+                else {
+                    offPeakCounter+=1;
+                }
+                if (c.getEndZone()==1 || c.getStartZone()==1){
+                    zone1counter+=1;
+                }
+                if (c.getEndZone()==2 || c.getStartZone()==2){
+                    zone2counter+=1;
+                }
+                if (c.getEndZone()==3 || c.getStartZone()==3){
+                    zone3counter+=1;
+                }
+                if (c.getEndZone()==4 || c.getStartZone()==4){
+                    zone4counter+=1;
+                }
+                if (c.getEndZone()==5 || c.getStartZone()==5){
+                    zone5counter+=1;
                 }
 
             }
+
+            System.out.println("Total number of journeys: " + journeyCount);
+            System.out.println("Total cost: " + totalCost);
+            System.out.println("Average fare : " + (totalCost.divide(new BigDecimal(journeyCount))).setScale(2, RoundingMode.HALF_UP));
+            System.out.println("Highest Fare: " + highestFare + " with journey ID: " + highestJourneyID);
+            System.out.println("Number of peak journeys: " + peakCounter);
+            System.out.println("Number of off-peak journeys: " + offPeakCounter);
+            System.out.println("Number of journeys to/from Central Zone: " + zone1counter);
+            System.out.println("Number of journeys to/from Inner Zone: " + zone2counter);
+            System.out.println("Number of journeys to/from Suburban Zone: " + zone3counter);
+            System.out.println("Number of journeys to/from Outer Zone: " + zone4counter);
+            System.out.println("Number of journeys to/from Rural Zone: " + zone5counter);
         }
-        System.out.println("Total number of journeys: " + journeyCount);
-        System.out.println("Total cost: " + totalCost);
-        System.out.println("Average fare : " + (totalCost.divide(new BigDecimal(journeyCount))).setScale(2, RoundingMode.HALF_UP));
-        System.out.println("Highest Fare: " + highestFare + " with journey ID: " + highestJourneyID);
 
     }
 
@@ -890,7 +927,7 @@ class journeyList {
                 System.out.println("Adult journeys total base fare: " + preDiscountSum);
                 System.out.println("Adult journeys total discounted fare: " + discountedSum);
                 System.out.println("Adult journeys total charged fare: " + chargedSum);
-                if(chargedSum==CityRideDataset.DAILY_CAP.get(CityRideDataset.PassengerType.ADULT)){
+                if((chargedSum.compareTo(CityRideDataset.DAILY_CAP.get(CityRideDataset.PassengerType.ADULT)))==0){
                     System.out.println("Cap was reached");
                 }
                 else{
@@ -921,7 +958,7 @@ class journeyList {
                 System.out.println("Student journeys total base fare: " + preDiscountSum);
                 System.out.println("Student journeys total discounted fare: " + discountedSum);
                 System.out.println("Student journeys total charged fare: " + chargedSum);
-                if(chargedSum==CityRideDataset.DAILY_CAP.get(CityRideDataset.PassengerType.STUDENT)){
+                if((chargedSum.compareTo(CityRideDataset.DAILY_CAP.get(CityRideDataset.PassengerType.STUDENT)))==0){
                     System.out.println("Cap was reached");
                 }
                 else{
@@ -952,7 +989,7 @@ class journeyList {
                 System.out.println("Child journeys total base fare: " + preDiscountSum);
                 System.out.println("Child journeys total discounted fare: " + discountedSum);
                 System.out.println("Child journeys total charged fare: " + chargedSum);
-                if(chargedSum==CityRideDataset.DAILY_CAP.get(CityRideDataset.PassengerType.CHILD)){
+                if((chargedSum.compareTo(CityRideDataset.DAILY_CAP.get(CityRideDataset.PassengerType.CHILD)))==0){
                     System.out.println("Cap was reached");
                 }
                 else{
@@ -983,7 +1020,7 @@ class journeyList {
                 System.out.println("Senior journeys total base fare: " + preDiscountSum);
                 System.out.println("Senior journeys total discounted fare: " + discountedSum);
                 System.out.println("Senior journeys total charged fare: " + chargedSum);
-                if(chargedSum==CityRideDataset.DAILY_CAP.get(CityRideDataset.PassengerType.SENIOR_CITIZEN)){
+                if((chargedSum.compareTo(CityRideDataset.DAILY_CAP.get(CityRideDataset.PassengerType.SENIOR_CITIZEN)))==0){
                     System.out.println("Cap was reached");
                 }
                 else{
@@ -995,12 +1032,20 @@ class journeyList {
 
     public String deleteJourneyByID(Scanner scanner){
         String ID;
+        int counter=0;
         System.out.println("Please input ID to delete: ");
         ID=scanner.nextLine();
         for(Journey c : journeyList){
+            counter+=1;
             if(c.getJourneyID().equalsIgnoreCase(ID)){
-                PASSENGER_TOTAL.put(c.getPassenger(),PASSENGER_TOTAL.get(c.getPassenger()).subtract(c.getFinalFare()));
+                PASSENGER_TOTAL.put(c.getPassenger(),new BigDecimal(0));
                 journeyList.remove(c);
+                for(Journey d : journeyList) {
+                    if(d.getPassenger()==c.getPassenger()) {
+                        d.setFinalFare();
+                    }
+
+                }
 
                 return "Journey with ID "+ ID +" has been deleted.";
             }
@@ -1115,6 +1160,7 @@ public class CityRide_Lite {
                     break;
                 case 7:
                     journeyList.passengerSummary(scanner);
+                    break;
                 case 8:
                     System.out.println("Exiting...");
                     break;
