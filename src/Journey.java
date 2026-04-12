@@ -128,7 +128,6 @@ public class Journey {
                         break;
                     default:
                         System.out.println("Invalid choice, please try again");
-                        choice = scanner.nextInt();
                         scanner.nextLine();
 
                 }
@@ -147,13 +146,13 @@ public class Journey {
 
     }
     public BigDecimal finalFare() {
-        if (((discountFare.add(journeyList.PASSENGER_TOTAL.get(getPassenger()))).compareTo(CityRideDataset.DAILY_CAP.get(getPassenger()))) >= 0) {
-            finalFare = (CityRideDataset.DAILY_CAP.get(getPassenger())).subtract(journeyList.PASSENGER_TOTAL.get(getPassenger()));
+        if (((discountFare.add(JourneyList.PASSENGER_TOTAL.get(getPassenger()))).compareTo(CityRideDataset.DAILY_CAP.get(getPassenger()))) >= 0) {
+            finalFare = (CityRideDataset.DAILY_CAP.get(getPassenger())).subtract(JourneyList.PASSENGER_TOTAL.get(getPassenger()));
         }
         else{
             finalFare=discountFare;
         }
-        journeyList.PASSENGER_TOTAL.put(passenger,journeyList.PASSENGER_TOTAL.get(passenger).add(finalFare));
+        JourneyList.PASSENGER_TOTAL.put(passenger, JourneyList.PASSENGER_TOTAL.get(passenger).add(finalFare));
         return finalFare;
 
     }

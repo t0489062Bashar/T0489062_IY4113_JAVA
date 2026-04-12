@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.List;
 import java.util.function.Predicate;
@@ -139,22 +141,16 @@ import java.util.function.Predicate;
         while (valid == false) {
             try {
                 System.out.println("Please enter day (dd): ");
-                String day = scanner.nextLine();
+                int day = scanner.nextInt();
+                scanner.nextLine();
                 System.out.println("Please enter month (MM): ");
-                String month = scanner.nextLine();
+                int month = scanner.nextInt();
+                scanner.nextLine();
                 System.out.println("Please enter year (yyyy): ");
-                String year = scanner.nextLine();
-                String date= year + "-" + month + "-" + day;
-                boolean found=false;
-                for(Journey c : journeyList) {
-                    if (c.getJourneyDate().toString()== date) {
-                        found=true;
-                        c.displayDetails();
-                    }
-                }
-                if (found==false){
-                    System.out.println("No matches found.");
-                }
+                int year = scanner.nextInt();
+                scanner.nextLine();
+                LocalDate date= LocalDate.of(year,month,day);
+                filter(journeyList, c->c.getJourneyDate().equals(date));
                 valid = true;
             } catch (Exception e) {
                 System.out.println("Please enter a valid choice");

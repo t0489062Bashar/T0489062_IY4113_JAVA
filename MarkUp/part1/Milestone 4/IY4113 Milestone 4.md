@@ -340,9 +340,9 @@ class Journey {
     }  
 
 }  
-class journeyList {  
+class JourneyList {  
 
-    private List<Journey> journeyList = new ArrayList<>();  
+    private List<Journey> JourneyList = new ArrayList<>();  
     private BigDecimal childTotal=new BigDecimal("0.0");  
     private BigDecimal seniorTotal=new BigDecimal("0.0");  
     private BigDecimal studentTotal=new BigDecimal("0.0");  
@@ -350,7 +350,7 @@ class journeyList {
     
     
     public void addJourney(Journey c){  
-        journeyList.add(c);  
+        JourneyList.add(c);  
         System.out.println("Journey with ID: " + c.getJourneyID() + " has been added.");  
         if (c.getPassenger()==CityRideDataset.PassengerType.SENIOR_CITIZEN){  
             seniorTotal=c.getDiscountFare().add(seniorTotal);  
@@ -366,7 +366,7 @@ class journeyList {
         }  
     }  
     public Journey findJourneyByID(String ID){  
-        for(Journey c : journeyList){  
+        for(Journey c : JourneyList){  
             if(c.getJourneyID().equalsIgnoreCase(ID)){  
                 return c;  
             }  
@@ -378,7 +378,7 @@ class journeyList {
         String ID;  
         System.out.println("Please input ID to delete: ");  
         ID=scanner.nextLine();  
-        for(Journey c : journeyList){  
+        for(Journey c : JourneyList){  
             if(c.getJourneyID().equalsIgnoreCase(ID)){  
                 if (c.getPassenger()==CityRideDataset.PassengerType.SENIOR_CITIZEN){  
                     seniorTotal=c.getDiscountFare().subtract(seniorTotal);  
@@ -392,7 +392,7 @@ class journeyList {
                 else{  
                     adultTotal=c.getDiscountFare().subtract(adultTotal);  
                 }  
-                journeyList.remove(c);  
+                JourneyList.remove(c);  
     
                 return "Journey with ID "+ ID +"has been deleted.";  
             }  
@@ -402,11 +402,11 @@ class journeyList {
     }  
     
     public void showAllJourney(){  
-        if (journeyList.isEmpty()) {  
+        if (JourneyList.isEmpty()) {  
             System.out.println("Journey list is empty.");  
         }  
         else{  
-            for(Journey c : journeyList) {  
+            for(Journey c : JourneyList) {  
                 c.displayDetails();  
             }  
         }  
@@ -421,7 +421,7 @@ public class CityRide_Lite {
 
     public static void main(String[] args) {  
         Scanner scanner = new Scanner(System.in);  
-        journeyList journeyList = new journeyList();  
+        JourneyList JourneyList = new JourneyList();  
         int choice;  
     
         do {  
@@ -436,15 +436,15 @@ public class CityRide_Lite {
             scanner.nextLine();  
             switch (choice) {  
                 case 1:  
-                    journeyList.addJourney(new Journey(scanner));  
+                    JourneyList.addJourney(new Journey(scanner));  
                     break;  
                 case 2:  
-                    journeyList.showAllJourney();  
+                    JourneyList.showAllJourney();  
                     break;  
                 case 3:  
                     System.out.println("Enter ID to update: ");  
                     String searchID = scanner.nextLine();  
-                    Journey foundjourney = journeyList.findJourneyByID(searchID);  
+                    Journey foundjourney = JourneyList.findJourneyByID(searchID);  
     
                     if (foundjourney != null) {  
                         System.out.println("Enter new base fare: ");  
@@ -458,7 +458,7 @@ public class CityRide_Lite {
                     break;  
     
                 case 4:  
-                    System.out.println(journeyList.deleteJourneyByID(scanner));  
+                    System.out.println(JourneyList.deleteJourneyByID(scanner));  
                     break;  
     
                 case 5:  

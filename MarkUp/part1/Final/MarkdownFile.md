@@ -375,13 +375,13 @@ return discountfare;
   
 }  
 public BigDecimal finalFare() {  
-if (((discountFare.add(journeyList._PASSENGER\_TOTAL_.get(getPassenger()))).compareTo(CityRideDataset._DAILY\_CAP_.get(getPassenger()))) >= 0) {  
-finalFare = (CityRideDataset._DAILY\_CAP_.get(getPassenger())).subtract(journeyList._PASSENGER\_TOTAL_.get(getPassenger()));  
+if (((discountFare.add(JourneyList._PASSENGER\_TOTAL_.get(getPassenger()))).compareTo(CityRideDataset._DAILY\_CAP_.get(getPassenger()))) >= 0) {  
+finalFare = (CityRideDataset._DAILY\_CAP_.get(getPassenger())).subtract(JourneyList._PASSENGER\_TOTAL_.get(getPassenger()));  
 }  
 else{  
 finalFare=discountFare;  
 }  
-journeyList._PASSENGER\_TOTAL_.put(passenger,journeyList._PASSENGER\_TOTAL_.get(passenger).add(finalFare));  
+JourneyList._PASSENGER\_TOTAL_.put(passenger,JourneyList._PASSENGER\_TOTAL_.get(passenger).add(finalFare));  
 return finalFare;  
   
 }  
@@ -455,9 +455,9 @@ System._out_.println("\[" + journeyDate + "\] Time: "+ journeyTime + "| Starting
   
 }  
 }  
-class journeyList {  
+class JourneyList {  
   
-private List<Journey> journeyList = new ArrayList<>();  
+private List<Journey> JourneyList = new ArrayList<>();  
   
   
 public static Map<CityRideDataset.PassengerType, BigDecimal> _PASSENGER\_TOTAL_ \= new HashMap<>();  
@@ -470,12 +470,12 @@ _PASSENGER\_TOTAL_.put(CityRideDataset.PassengerType._SENIOR\_CITIZEN_, new BigD
   
   
 public void addJourney(Journey c){  
-journeyList.add(c);  
+JourneyList.add(c);  
 System._out_.println("Journey with ID: " + c.getJourneyID() + " has been added.");  
   
 }  
 public Journey findJourneyByID(String ID){  
-for(Journey c : journeyList){  
+for(Journey c : JourneyList){  
 if(c.getJourneyID().equalsIgnoreCase(ID)){  
 return c;  
 }  
@@ -497,12 +497,12 @@ choice = scanner.nextInt();
 scanner.nextLine();  
 switch (choice) {  
 case 1:  
-if (journeyList.isEmpty()) {  
+if (JourneyList.isEmpty()) {  
 System._out_.println("Journey list is empty.");  
 }  
 else{  
 boolean found=false;  
-for(Journey c : journeyList) {  
+for(Journey c : JourneyList) {  
 if (c.getPassenger()== CityRideDataset.PassengerType._ADULT_) {  
 found=true;  
 c.displayDetails();  
@@ -515,12 +515,12 @@ System._out_.println("No matches found.");
 valid = true;  
 break;  
 case 2:  
-if (journeyList.isEmpty()) {  
+if (JourneyList.isEmpty()) {  
 System._out_.println("Journey list is empty.");  
 }  
 else{  
 boolean found=false;  
-for(Journey c : journeyList) {  
+for(Journey c : JourneyList) {  
 if (c.getPassenger()== CityRideDataset.PassengerType._STUDENT_) {  
 found=true;  
 c.displayDetails();  
@@ -533,12 +533,12 @@ System._out_.println("No matches found.");
 valid = true;  
 break;  
 case 3:  
-if (journeyList.isEmpty()) {  
+if (JourneyList.isEmpty()) {  
 System._out_.println("Journey list is empty.");  
 }  
 else{  
 boolean found=false;  
-for(Journey c : journeyList) {  
+for(Journey c : JourneyList) {  
 if (c.getPassenger()== CityRideDataset.PassengerType._CHILD_) {  
 found=true;  
 c.displayDetails();  
@@ -551,12 +551,12 @@ System._out_.println("No matches found.");
 valid = true;  
 break;  
 case 4:  
-if (journeyList.isEmpty()) {  
+if (JourneyList.isEmpty()) {  
 System._out_.println("Journey list is empty.");  
 }  
 else{  
 boolean found=false;  
-for(Journey c : journeyList) {  
+for(Journey c : JourneyList) {  
 if (c.getPassenger()== CityRideDataset.PassengerType._SENIOR\_CITIZEN_) {  
 found=true;  
 c.displayDetails();  
@@ -594,12 +594,12 @@ choice = scanner.nextInt();
 scanner.nextLine();  
 switch (choice) {  
 case 1:  
-if (journeyList.isEmpty()) {  
+if (JourneyList.isEmpty()) {  
 System._out_.println("Journey list is empty.");  
 }  
 else{  
 boolean found=false;  
-for(Journey c : journeyList) {  
+for(Journey c : JourneyList) {  
 if (c.getJourneyTime()== CityRideDataset.TimeBand._PEAK_) {  
 found=true;  
 c.displayDetails();  
@@ -612,12 +612,12 @@ System._out_.println("No matches found.");
 valid = true;  
 break;  
 case 2:  
-if (journeyList.isEmpty()) {  
+if (JourneyList.isEmpty()) {  
 System._out_.println("Journey list is empty.");  
 }  
 else{  
 boolean found=false;  
-for(Journey c : journeyList) {  
+for(Journey c : JourneyList) {  
 if (c.getJourneyTime()== CityRideDataset.TimeBand._OFF\_PEAK_) {  
 found=true;  
 c.displayDetails();  
@@ -658,12 +658,12 @@ choice = scanner.nextInt();
 scanner.nextLine();  
 switch (choice) {  
 case 1:  
-if (journeyList.isEmpty()) {  
+if (JourneyList.isEmpty()) {  
 System._out_.println("Journey list is empty.");  
 }  
 else{  
 boolean found=false;  
-for(Journey c : journeyList) {  
+for(Journey c : JourneyList) {  
 if (c.getStartZone()== 1) {  
 found=true;  
 c.displayDetails();  
@@ -676,12 +676,12 @@ System._out_.println("No matches found.");
 valid = true;  
 break;  
 case 2:  
-if (journeyList.isEmpty()) {  
+if (JourneyList.isEmpty()) {  
 System._out_.println("Journey list is empty.");  
 }  
 else{  
 boolean found=false;  
-for(Journey c : journeyList) {  
+for(Journey c : JourneyList) {  
 if (c.getStartZone()== 2) {  
 found=true;  
 c.displayDetails();  
@@ -694,12 +694,12 @@ System._out_.println("No matches found.");
 valid = true;  
 break;  
 case 3:  
-if (journeyList.isEmpty()) {  
+if (JourneyList.isEmpty()) {  
 System._out_.println("Journey list is empty.");  
 }  
 else{  
 boolean found=false;  
-for(Journey c : journeyList) {  
+for(Journey c : JourneyList) {  
 if (c.getStartZone()== 3) {  
 found=true;  
 c.displayDetails();  
@@ -712,12 +712,12 @@ System._out_.println("No matches found.");
 valid = true;  
 break;  
 case 4:  
-if (journeyList.isEmpty()) {  
+if (JourneyList.isEmpty()) {  
 System._out_.println("Journey list is empty.");  
 }  
 else{  
 boolean found=false;  
-for(Journey c : journeyList) {  
+for(Journey c : JourneyList) {  
 if (c.getStartZone()== 4) {  
 found=true;  
 c.displayDetails();  
@@ -730,12 +730,12 @@ System._out_.println("No matches found.");
 valid = true;  
 break;  
 case 5:  
-if (journeyList.isEmpty()) {  
+if (JourneyList.isEmpty()) {  
 System._out_.println("Journey list is empty.");  
 }  
 else{  
 boolean found=false;  
-for(Journey c : journeyList) {  
+for(Journey c : JourneyList) {  
 if (c.getStartZone()== 5) {  
 found=true;  
 c.displayDetails();  
@@ -776,12 +776,12 @@ choice = scanner.nextInt();
 scanner.nextLine();  
 switch (choice) {  
 case 1:  
-if (journeyList.isEmpty()) {  
+if (JourneyList.isEmpty()) {  
 System._out_.println("Journey list is empty.");  
 }  
 else{  
 boolean found=false;  
-for(Journey c : journeyList) {  
+for(Journey c : JourneyList) {  
 if (c.getEndZone()== 1) {  
 found=true;  
 c.displayDetails();  
@@ -794,12 +794,12 @@ System._out_.println("No matches found.");
 valid = true;  
 break;  
 case 2:  
-if (journeyList.isEmpty()) {  
+if (JourneyList.isEmpty()) {  
 System._out_.println("Journey list is empty.");  
 }  
 else{  
 boolean found=false;  
-for(Journey c : journeyList) {  
+for(Journey c : JourneyList) {  
 if (c.getEndZone()== 2) {  
 found=true;  
 c.displayDetails();  
@@ -812,12 +812,12 @@ System._out_.println("No matches found.");
 valid = true;  
 break;  
 case 3:  
-if (journeyList.isEmpty()) {  
+if (JourneyList.isEmpty()) {  
 System._out_.println("Journey list is empty.");  
 }  
 else{  
 boolean found=false;  
-for(Journey c : journeyList) {  
+for(Journey c : JourneyList) {  
 if (c.getEndZone()== 3) {  
 found=true;  
 c.displayDetails();  
@@ -830,12 +830,12 @@ System._out_.println("No matches found.");
 valid = true;  
 break;  
 case 4:  
-if (journeyList.isEmpty()) {  
+if (JourneyList.isEmpty()) {  
 System._out_.println("Journey list is empty.");  
 }  
 else{  
 boolean found=false;  
-for(Journey c : journeyList) {  
+for(Journey c : JourneyList) {  
 if (c.getEndZone()== 4) {  
 found=true;  
 c.displayDetails();  
@@ -848,12 +848,12 @@ System._out_.println("No matches found.");
 valid = true;  
 break;  
 case 5:  
-if (journeyList.isEmpty()) {  
+if (JourneyList.isEmpty()) {  
 System._out_.println("Journey list is empty.");  
 }  
 else{  
 boolean found=false;  
-for(Journey c : journeyList) {  
+for(Journey c : JourneyList) {  
 if (c.getEndZone()== 5) {  
 found=true;  
 c.displayDetails();  
@@ -890,7 +890,7 @@ System._out_.println("Please enter year (yyyy): ");
 String year = scanner.nextLine();  
 String date= year + "-" + month + "-" + day;  
 boolean found=false;  
-for(Journey c : journeyList) {  
+for(Journey c : JourneyList) {  
 if (c.getJourneyDate().toString()== date) {  
 found=true;  
 c.displayDetails();  
@@ -969,11 +969,11 @@ int zone2counter=0;
 int zone3counter=0;  
 int zone4counter=0;  
 int zone5counter=0;  
-if (journeyList.isEmpty()) {  
+if (JourneyList.isEmpty()) {  
 System._out_.println("Journey list is empty.");  
 }  
 else {  
-for (Journey c : journeyList) {  
+for (Journey c : JourneyList) {  
 journeyCount = journeyCount + 1;  
 totalCost = totalCost.add(c.getFinalFare());  
 if (c.getFinalFare().compareTo(highestFare) > 0) {  
@@ -1024,12 +1024,12 @@ int journeyCount=0;
 BigDecimal preDiscountSum=new BigDecimal(0);  
 BigDecimal discountedSum=new BigDecimal(0);  
 BigDecimal chargedSum=new BigDecimal(0);  
-if (journeyList.isEmpty()) {  
+if (JourneyList.isEmpty()) {  
 System._out_.println("Journey list is empty.");  
 }  
 else{  
 boolean found=false;  
-for(Journey c : journeyList) {  
+for(Journey c : JourneyList) {  
 if (c.getPassenger()==CityRideDataset.PassengerType._ADULT_){  
 journeyCount=journeyCount+1;  
 preDiscountSum=preDiscountSum.add(c.getBaseFare());  
@@ -1060,7 +1060,7 @@ journeyCount=0;
 preDiscountSum=new BigDecimal(0);  
 discountedSum=new BigDecimal(0);  
 chargedSum=new BigDecimal(0);  
-for(Journey c : journeyList) {  
+for(Journey c : JourneyList) {  
 if (c.getPassenger()==CityRideDataset.PassengerType._STUDENT_){  
 journeyCount=journeyCount+1;  
 preDiscountSum=preDiscountSum.add(c.getBaseFare());  
@@ -1091,7 +1091,7 @@ journeyCount=0;
 preDiscountSum=new BigDecimal(0);  
 discountedSum=new BigDecimal(0);  
 chargedSum=new BigDecimal(0);  
-for(Journey c : journeyList) {  
+for(Journey c : JourneyList) {  
 if (c.getPassenger()==CityRideDataset.PassengerType._CHILD_){  
 journeyCount=journeyCount+1;  
 preDiscountSum=preDiscountSum.add(c.getBaseFare());  
@@ -1122,7 +1122,7 @@ journeyCount=0;
 preDiscountSum=new BigDecimal(0);  
 discountedSum=new BigDecimal(0);  
 chargedSum=new BigDecimal(0);  
-for(Journey c : journeyList) {  
+for(Journey c : JourneyList) {  
 if (c.getPassenger()==CityRideDataset.PassengerType._SENIOR\_CITIZEN_){  
 journeyCount=journeyCount+1;  
 preDiscountSum=preDiscountSum.add(c.getBaseFare());  
@@ -1157,12 +1157,12 @@ String ID;
 int counter=0;  
 System._out_.println("Please input ID to delete: ");  
 ID=scanner.nextLine();  
-for(Journey c : journeyList){  
+for(Journey c : JourneyList){  
 counter+=1;  
 if(c.getJourneyID().equalsIgnoreCase(ID)){  
 _PASSENGER\_TOTAL_.put(c.getPassenger(),new BigDecimal(0));  
-journeyList.remove(c);  
-for(Journey d : journeyList) {  
+JourneyList.remove(c);  
+for(Journey d : JourneyList) {  
 if(d.getPassenger()==c.getPassenger()) {  
 d.setFinalFare();  
 }  
@@ -1177,22 +1177,22 @@ return "Journey not found";
 }  
   
 public void showAllJourney(){  
-if (journeyList.isEmpty()) {  
+if (JourneyList.isEmpty()) {  
 System._out_.println("Journey list is empty.");  
 }  
 else{  
-for(Journey c : journeyList) {  
+for(Journey c : JourneyList) {  
 c.displayDetails();  
 }  
 }  
 }  
   
 public void clearDay(){  
-if (journeyList.isEmpty()) {  
+if (JourneyList.isEmpty()) {  
 System._out_.println("Journey list is empty.");  
 }  
 else{  
-journeyList.clear();  
+JourneyList.clear();  
 System._out_.println("Day cleared successfully.");  
 }  
 }  
@@ -1204,7 +1204,7 @@ public class CityRide\_Lite {
   
 public static void main(String\[\] args) {  
 Scanner scanner = new Scanner(System._in_);  
-journeyList journeyList = new journeyList();  
+JourneyList JourneyList = new JourneyList();  
 int choice=0;  
   
 do {  
@@ -1232,13 +1232,13 @@ scanner.nextLine();
   
 switch (choice) {  
 case 1:  
-journeyList.addJourney(new Journey(scanner));  
+JourneyList.addJourney(new Journey(scanner));  
 break;  
 case 2:  
-journeyList.showAllJourney();  
+JourneyList.showAllJourney();  
 break;  
 case 3:  
-journeyList.filterJourney(scanner);  
+JourneyList.filterJourney(scanner);  
 break;  
   
 case 4:  
@@ -1249,7 +1249,7 @@ try{
 confirm = scanner.nextInt();  
 scanner.nextLine();  
 if (confirm==1){  
-System._out_.println(journeyList.deleteJourneyByID(scanner));  
+System._out_.println(JourneyList.deleteJourneyByID(scanner));  
 }  
 else {  
 System._out_.println("Confirmation declined");  
@@ -1266,7 +1266,7 @@ try{
 confirm = scanner.nextInt();  
 scanner.nextLine();  
 if (confirm==1){  
-journeyList.clearDay();  
+JourneyList.clearDay();  
 }  
 else{  
 System._out_.println("Confirmation declined");  
@@ -1278,10 +1278,10 @@ System._out_.println("Confirmation declined");
 }  
 break;  
 case 6:  
-journeyList.dailySummary(scanner);  
+JourneyList.dailySummary(scanner);  
 break;  
 case 7:  
-journeyList.passengerSummary(scanner);  
+JourneyList.passengerSummary(scanner);  
 break;  
 case 8:  
 System._out_.println("Exiting...");  
@@ -1799,13 +1799,13 @@ System.out.println("\[" + journeyDate + "\] Time: "+ journeyTime + "| Starting Z
 }
 
 }  
-class journeyList {
+class JourneyList {
 
-private List<Journey> journeyList = new ArrayList<>();
+private List<Journey> JourneyList = new ArrayList<>();
 
 public void addJourney(Journey c){
 
-journeyList.add(c);
+JourneyList.add(c);
 
 System.out.println("Journey with ID: " + c.getJourneyID() + " has been added.");
 
@@ -1813,7 +1813,7 @@ System.out.println("Journey with ID: " + c.getJourneyID() + " has been added.");
 
 public Journey findJourneyByID(String ID){
 
-for(Journey c : journeyList){
+for(Journey c : JourneyList){
 
 if(c.getJourneyID().equalsIgnoreCase(ID)){
 
@@ -1829,7 +1829,7 @@ return null;
 
 public void showAllJourney(){
 
-if (journeyList.isEmpty()) {
+if (JourneyList.isEmpty()) {
 
 System.out.println("Journey list is empty.");
 
@@ -1837,7 +1837,7 @@ System.out.println("Journey list is empty.");
 
 else{
 
-for(Journey c : journeyList) {
+for(Journey c : JourneyList) {
 
 c.displayDetails();
 
@@ -1855,7 +1855,7 @@ public static void main(String\[\] args) {
 
 Scanner scanner = new Scanner(System.in);
 
-journeyList journeyList = new journeyList();
+JourneyList JourneyList = new JourneyList();
 
 int choice;
 
@@ -1883,13 +1883,13 @@ switch (choice) {
 
 case 1:
 
-journeyList.addJourney(new Journey());
+JourneyList.addJourney(new Journey());
 
 break;
 
 case 2:
 
-journeyList.showAllJourney();
+JourneyList.showAllJourney();
 
 break;
 
@@ -1899,7 +1899,7 @@ System.out.println("Enter ID to update: ");
 
 String searchReg = scanner.nextLine();
 
-Journey foundcar = journeyList.findJourneyByID(searchReg);
+Journey foundcar = JourneyList.findJourneyByID(searchReg);
 
 if (foundcar != null) {
 
@@ -2477,9 +2477,9 @@ System.out.println("\[" + journeyDate + "\] Time: "+ journeyTime + "| Starting Z
 }
 
 }  
-class journeyList {
+class JourneyList {
 
-private List<Journey> journeyList = new ArrayList<>();
+private List<Journey> JourneyList = new ArrayList<>();
 
 private BigDecimal childTotal=new BigDecimal("0.0");
 
@@ -2491,7 +2491,7 @@ private BigDecimal adultTotal=new BigDecimal("0.0");
 
 public void addJourney(Journey c){
 
-journeyList.add(c);
+JourneyList.add(c);
 
 System.out.println("Journey with ID: " + c.getJourneyID() + " has been added.");
 
@@ -2523,7 +2523,7 @@ adultTotal=c.getDiscountFare().add(adultTotal);
 
 public Journey findJourneyByID(String ID){
 
-for(Journey c : journeyList){
+for(Journey c : JourneyList){
 
 if(c.getJourneyID().equalsIgnoreCase(ID)){
 
@@ -2545,7 +2545,7 @@ System.out.println("Please input ID to delete: ");
 
 ID=scanner.nextLine();
 
-for(Journey c : journeyList){
+for(Journey c : JourneyList){
 
 if(c.getJourneyID().equalsIgnoreCase(ID)){
 
@@ -2573,7 +2573,7 @@ adultTotal=c.getDiscountFare().subtract(adultTotal);
 
 }
 
-journeyList.remove(c);
+JourneyList.remove(c);
 
 return "Journey with ID "+ ID +"has been deleted.";
 
@@ -2587,7 +2587,7 @@ return "Journey not found";
 
 public void showAllJourney(){
 
-if (journeyList.isEmpty()) {
+if (JourneyList.isEmpty()) {
 
 System.out.println("Journey list is empty.");
 
@@ -2595,7 +2595,7 @@ System.out.println("Journey list is empty.");
 
 else{
 
-for(Journey c : journeyList) {
+for(Journey c : JourneyList) {
 
 c.displayDetails();
 
@@ -2617,7 +2617,7 @@ public static void main(String\[\] args) {
 
 Scanner scanner = new Scanner(System.in);
 
-journeyList journeyList = new journeyList();
+JourneyList JourneyList = new JourneyList();
 
 int choice;
 
@@ -2645,13 +2645,13 @@ switch (choice) {
 
 case 1:
 
-journeyList.addJourney(new Journey(scanner));
+JourneyList.addJourney(new Journey(scanner));
 
 break;
 
 case 2:
 
-journeyList.showAllJourney();
+JourneyList.showAllJourney();
 
 break;
 
@@ -2661,7 +2661,7 @@ System.out.println("Enter ID to update: ");
 
 String searchID = scanner.nextLine();
 
-Journey foundjourney = journeyList.findJourneyByID(searchID);
+Journey foundjourney = JourneyList.findJourneyByID(searchID);
 
 if (foundjourney != null) {
 
@@ -2685,7 +2685,7 @@ break;
 
 case 4:
 
-System.out.println(journeyList.deleteJourneyByID(scanner));
+System.out.println(JourneyList.deleteJourneyByID(scanner));
 
 break;
 
