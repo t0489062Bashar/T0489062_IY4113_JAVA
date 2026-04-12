@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class JourneySummariser {
-    public void dailySummary(Scanner scanner, List<Journey> journeyList){
+    static public void dailySummary(List<Journey> journeyList){
         int journeyCount=0;
         String highestJourneyID="";
         BigDecimal totalCost= new BigDecimal(0);
@@ -65,7 +65,7 @@ public class JourneySummariser {
         }
 
     }
-    public void passengerSummariser(List<Journey> journeyList, CityRideDataset.PassengerType passenger, String type) {//Shortened method to adhere to guide to good programming.
+    static private void passengerSummariser(List<Journey> journeyList, CityRideDataset.PassengerType passenger, String type) {//Shortened method to adhere to guide to good programming.
         int journeyCount = 0;
         BigDecimal preDiscountSum = new BigDecimal(0);
         BigDecimal discountedSum = new BigDecimal(0);
@@ -102,7 +102,7 @@ public class JourneySummariser {
         }
     }
 
-    public void passengerSummary(List<Journey> journeyList){
+    static public void passengerSummary(List<Journey> journeyList){
         passengerSummariser(journeyList, CityRideDataset.PassengerType.ADULT,"Adult");
         passengerSummariser(journeyList, CityRideDataset.PassengerType.STUDENT,"Student");
         passengerSummariser(journeyList, CityRideDataset.PassengerType.CHILD,"Child");
