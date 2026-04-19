@@ -1,14 +1,17 @@
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
 public class JourneySummariser {
-    static public void dailySummary(List<Journey> journeyList){
+    static public void dailySummary(Scanner scanner, List<Journey> journeyList, String riderName, LocalDate date){
         int journeyCount=0;
         String highestJourneyID="";
         BigDecimal totalCost= new BigDecimal(0);
         BigDecimal highestFare= new BigDecimal(0);
+        BigDecimal averageFare= new BigDecimal(0);
+        BigDecimal moneySaved= new BigDecimal(0);
         int peakCounter=0;
         int offPeakCounter=0;
         int zone1counter=0;
@@ -16,6 +19,8 @@ public class JourneySummariser {
         int zone3counter=0;
         int zone4counter=0;
         int zone5counter=0;
+        boolean capReached=false;
+        int confirm=0;
         if (journeyList.isEmpty()) {
             System.out.println("Journey list is empty.");
         }
@@ -50,10 +55,15 @@ public class JourneySummariser {
                 }
 
             }
+            moneySaved=moneySaved.add(capSummariser(journeyList, CityRideDataset.PassengerType.ADULT));
+            moneySaved=moneySaved.add(capSummariser(journeyList, CityRideDataset.PassengerType.STUDENT));
+            moneySaved=moneySaved.add(capSummariser(journeyList, CityRideDataset.PassengerType.CHILD));
+            moneySaved=moneySaved.add(capSummariser(journeyList, CityRideDataset.PassengerType.SENIOR_CITIZEN));
+            averageFare=(totalCost.divide(new BigDecimal(journeyCount))).setScale(2, RoundingMode.HALF_UP);
 
             System.out.println("Total number of journeys: " + journeyCount);
             System.out.println("Total cost: " + totalCost);
-            System.out.println("Average fare : " + (totalCost.divide(new BigDecimal(journeyCount))).setScale(2, RoundingMode.HALF_UP));
+            System.out.println("Average fare : " + averageFare);
             System.out.println("Highest Fare: " + highestFare + " with journey ID: " + highestJourneyID);
             System.out.println("Number of peak journeys: " + peakCounter);
             System.out.println("Number of off-peak journeys: " + offPeakCounter);
@@ -62,6 +72,30 @@ public class JourneySummariser {
             System.out.println("Number of journeys to/from Suburban Zone: " + zone3counter);
             System.out.println("Number of journeys to/from Outer Zone: " + zone4counter);
             System.out.println("Number of journeys to/from Rural Zone: " + zone5counter);
+            if ((moneySaved.compareTo(BigDecimal.ZERO))==1){
+                System.out.println("Cap was reached");
+                capReached=true;
+                System.out.println("Money saved due to cap: " + moneySaved);
+            }
+            System.out.println("Would you like to export this summary?");
+            System.out.println("Enter 1 to export");
+            System.out.println("Enter any other value to decline");
+            try{
+                confirm = scanner.nextInt();
+                scanner.nextLine();
+                if (confirm==1){
+                    String summaryCSV = riderName + "," + date + "," + journeyCount + "," + totalCost + "," + averageFare + "," + highestFare + "," + highestJourneyID + "," + capReached + "," + moneySaved + "," + peakCounter + "," + offPeakCounter + "," + zone1counter + "," + zone2counter + "," + zone3counter + "," + zone4counter + "," + zone5counter;
+                    SummaryFileHandler.writeSummariesToCSVFile("reports",summaryCSV);
+                    SummaryFileHandler.writeSummariesToTXTFile("reports",riderName,date,journeyCount,highestJourneyID,totalCost,highestFare,averageFare,moneySaved,peakCounter,offPeakCounter,zone1counter,zone2counter,zone3counter,zone4counter,zone5counter,capReached);
+                }
+                else{
+                    System.out.println("Export declined");
+                }
+            }
+            catch(Exception e){
+                System.out.println("Export declined");
+
+            }
         }
 
     }
@@ -93,8 +127,9 @@ public class JourneySummariser {
                 System.out.println(type + " journeys total base fare: " + preDiscountSum);
                 System.out.println(type + " journeys total discounted fare: " + discountedSum);
                 System.out.println(type + " journeys total charged fare: " + chargedSum);
-                if ((chargedSum.compareTo(CityRideDataset.DAILY_CAP.get(CityRideDataset.PassengerType.ADULT))) == 0) {
+                if ((chargedSum.compareTo(CityRideDataset.DAILY_CAP.get(passenger))) == 0) {
                     System.out.println("Cap was reached");
+
                 } else {
                     System.out.println("Cap was not reached");
                 }
@@ -102,10 +137,33 @@ public class JourneySummariser {
         }
     }
 
+    static private BigDecimal capSummariser(List<Journey> journeyList, CityRideDataset.PassengerType passenger) {
+        BigDecimal discountedSum = new BigDecimal(0);
+        BigDecimal chargedSum = new BigDecimal(0);
+        BigDecimal moneySaved = new BigDecimal(0);
+            for (Journey c : journeyList) {
+                if (c.getPassenger() == passenger) {
+                    discountedSum = discountedSum.add(c.getDiscountFare());
+                    chargedSum = chargedSum.add(c.getFinalFare());
+                }
+            }
+                if ((chargedSum.compareTo(CityRideDataset.DAILY_CAP.get(passenger))) == 0) {
+                    System.out.println("Cap was reached");
+                    moneySaved=discountedSum.subtract(chargedSum);
+
+                }
+                return moneySaved;
+            }
+
+
     static public void passengerSummary(List<Journey> journeyList){
-        passengerSummariser(journeyList, CityRideDataset.PassengerType.ADULT,"Adult");
-        passengerSummariser(journeyList, CityRideDataset.PassengerType.STUDENT,"Student");
-        passengerSummariser(journeyList, CityRideDataset.PassengerType.CHILD,"Child");
-        passengerSummariser(journeyList, CityRideDataset.PassengerType.SENIOR_CITIZEN,"Senior");
+        if (journeyList.isEmpty()) {
+            System.out.println("Journey list is empty.");
+        } else {
+            passengerSummariser(journeyList, CityRideDataset.PassengerType.ADULT, "Adult");
+            passengerSummariser(journeyList, CityRideDataset.PassengerType.STUDENT, "Student");
+            passengerSummariser(journeyList, CityRideDataset.PassengerType.CHILD, "Child");
+            passengerSummariser(journeyList, CityRideDataset.PassengerType.SENIOR_CITIZEN, "Senior");
+        }
     }
 }

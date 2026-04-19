@@ -14,7 +14,6 @@ public class Journey {
     private BigDecimal discountFare;
     private BigDecimal finalFare;
     private String journeyID;
-    private BigDecimal total;
 
     public Journey(Scanner scanner){
         journeyTime = chooseTime(scanner, "Please choose timeband");
@@ -22,10 +21,23 @@ public class Journey {
         startZone = chooseZone(scanner, "Please choose starting zone");
         endZone = chooseZone(scanner, "Please choose destination zone");
         passenger = choosePassenger(scanner, "Please choose passenger type");
-        baseFare= CityRideDataset.getBaseFare(startZone,endZone,journeyTime);//Base fare will be calculated once dataset is made available
+        baseFare= CityRideDataset.getBaseFare(startZone,endZone,journeyTime);
         discountFare=discount();
         finalFare=finalFare();
         journeyID = UUID.randomUUID().toString();
+
+    }
+
+    public Journey(CityRideDataset.TimeBand journeyTime,LocalDate journeyDate,int startZone,int endZone,CityRideDataset.PassengerType passenger,BigDecimal baseFare,BigDecimal discountFare,BigDecimal finalFare,String journeyID){
+        this.journeyTime = journeyTime;
+        this.journeyDate =journeyDate;
+        this.startZone = startZone;
+        this.endZone = endZone;
+        this.passenger = passenger;
+        this.baseFare= baseFare;
+        this.discountFare=discountFare;
+        this.finalFare=finalFare;
+        this.journeyID = journeyID;
 
     }
 
@@ -84,8 +96,6 @@ public class Journey {
                     valid = true;
                 } else {
                     System.out.println("Invalid choice, please try again");
-                    choice = scanner.nextInt();
-                    scanner.nextLine();
                 }
             }
             catch (Exception e){
@@ -128,7 +138,6 @@ public class Journey {
                         break;
                     default:
                         System.out.println("Invalid choice, please try again");
-                        scanner.nextLine();
 
                 }
             }
@@ -219,6 +228,10 @@ public class Journey {
     }
     public void setFinalFare(){
         this.finalFare = finalFare();
+    }
+
+    public String toCSV(){
+        return journeyDate + ","+ journeyTime + "," + startZone + "," + endZone + "," + passenger + "," + baseFare + "," + discountFare + "," + finalFare + "," + journeyID;
     }
 
     public void displayDetails(){

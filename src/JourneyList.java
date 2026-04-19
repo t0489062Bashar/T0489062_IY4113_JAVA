@@ -17,6 +17,10 @@ public class JourneyList {
         return journeyList;
     }
 
+    public void setJourneyList(List<Journey> journeyList){
+        this.journeyList=journeyList;
+    }
+
 
     public void addJourney(Journey c){
         journeyList.add(c);
@@ -34,11 +38,9 @@ public class JourneyList {
 
     public String deleteJourneyByID(Scanner scanner){
         String ID;
-        int counter=0;
         System.out.println("Please input ID to delete: ");
         ID=scanner.nextLine();
         for(Journey c : journeyList){
-            counter+=1;
             if(c.getJourneyID().equalsIgnoreCase(ID)){
                 PASSENGER_TOTAL.put(c.getPassenger(),new BigDecimal(0));
                 journeyList.remove(c);
